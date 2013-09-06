@@ -7,7 +7,7 @@ CORES  = ENV['VAGRANT_CORES']  || '1'
 Vagrant.configure("2") do |config|
   config.vm.hostname = "rubycas-server-berkshelf"
   config.vm.box = "precise64"
-  config.vm.box_url = "http://dl.dropbox.com/u/1537815/precise64.box"
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
   config.vm.network :private_network, ip: "33.33.33.10"
   
    config.vm.provider :virtualbox do |vb|
@@ -20,26 +20,31 @@ Vagrant.configure("2") do |config|
   config.berkshelf.enabled = true
 
   # Update apt-get and Chef gem
-  config.vm.provision :shell, :inline => "apt-get update && \
-    apt-get install vim -y && \
-    gem install chef --version '~> 11' --no-rdoc --no-ri --conservative"  
+  config.vm.provision :shell, :path => "bootstrap.sh"
 
   config.vm.provision :chef_solo do |chef|
+    chef.data_bags_path = 'data_bags'
     chef.json = {
       :mysql => {
         :server_root_password => 'rootpass',
         :server_debian_password => 'debpass',
         :server_repl_password => 'replpass'
       },
+      :postgresql => {
+        :password => {
+          :postgres => '123456'
+        }
+      },
       :rubycas => {
         :database => {
-          :password => '123456'
+          :password => 'pass'
         }
       }
     }
 
     chef.run_list = [
-        "recipe[rubycas-server::default]"
+      "recipe[rubycas-server::default]",
+      "recipe[rubycas-server::nginx]"
     ]
   end
 end
