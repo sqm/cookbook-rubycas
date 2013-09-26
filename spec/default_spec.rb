@@ -4,7 +4,7 @@ describe 'rubycas-server::default' do
   before(:each) do
     @chef_run                       = ChefSpec::ChefRunner.new(CHEF_RUN_OPTIONS)
     @chef_run.node.set[:mysql]      = MYSQL_ATTRIBUTE_OPTIONS
-    @chef_run.node.set[:postgresql] = POSTGRES_ATTRIBUTE_OPTIONS
+    @chef_run.node.set[:postgres]   = POSTGRES_ATTRIBUTE_OPTIONS
     @chef_run_with_converge = @chef_run.converge 'rubycas-server::default'
   end
 
@@ -12,31 +12,15 @@ describe 'rubycas-server::default' do
     expect(@chef_run_with_converge).to include_recipe 'rvm::system_install'
   end
 
-  context "When using MySQL Database" do
-    it "should include the mysql recipe" do
-      expect(@chef_run_with_converge).to include_recipe 'mysql::server'
-    end
-
-    it "should include the database recipe" do
-      expect(@chef_run_with_converge).to include_recipe 'database::mysql'
-    end
-  end
-
-  context "When using PostgreSQL Database" do
-    xit "should include the postres recipe" do
-      expect(@chef_run_with_converge).to include_recipe 'postgresql::server'
-    end
-
-    xit "should include the database recipe" do
-      expect(@chef_run_with_converge).to include_recipe 'database::postgresql'
-    end
-  end
-
   it "should add the application user" do
     expect(@chef_run_with_converge).to create_user @chef_run.node[:rubycas][:user]
   end
 
-  it "should add a bash profile with rvm for the application user" do
+  it "should include the rubycas-server::database recipe" do
+    expect(@chef_run_with_converge).to include_recipe 'rubycas-server::database'
+  end
+
+  it "should add a bash.rc file with rvm for the application user" do
     expect(@chef_run_with_converge).to create_file_with_content(
       "#{@chef_run.node[:rubycas][:dir]}/.bashrc",
       "source #{@chef_run.node[:rvm][:root_path]}/environments/#{@chef_run.node[:rubycas][:ruby_version]}"
@@ -49,6 +33,10 @@ describe 'rubycas-server::default' do
 
   it "should create the Gemfile file" do
     expect(@chef_run_with_converge).to create_file "#{@chef_run.node[:rubycas][:app_directory]}/Gemfile"
+  end
+
+  it "should include the god recipe" do
+    expect(@chef_run_with_converge).to include_recipe 'god::default'
   end
 
   it "should install nginx" do

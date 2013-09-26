@@ -140,6 +140,10 @@ database:
 
 ##### AUTHENTICATION ###########################################################
 
+<% @authenticators.each do |auth| %>
+<%= auth.to_yaml.gsub(/---/,'') %>
+<% end %>
+
 # Configure how username/passwords are validated.
 #
 # !!! YOU MUST CONFIGURE AT LEAST ONE OF THESE AUTHENTICATION METHODS !!!
@@ -465,7 +469,7 @@ infoline: Powered by <a href="http://rubycas.github.com">RubyCAS-Server</a>
 # Set the level to DEBUG if you want more detailed logging.
 
 log:
-  file: /var/log/casserver.log
+  file: log/casserver.log
   level: INFO
 
 

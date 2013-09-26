@@ -1,0 +1,25 @@
+{
+  "id": "authenticator",
+  "authenticators": [ 
+    {
+      "authenticator": {
+        "class": "CASServer::Authenticators::SQLAuthlogic",
+        "database": {
+          "adapter": "mysql2",
+          "database":  "viper_cms",
+          "username":  "root",
+          "password":  "",
+          "host": "33.33.33.1"
+        },
+        "user_table": "admin_users",
+        "username_column": "login",
+        "password_column": "crypted_password",
+        "salt_column": "password_salt",
+        "encryptor_options": {
+          "stretches": 20,
+          "digest_format": "--PASSWORD--SALT--"
+        }
+      }
+    }
+  ]
+}
