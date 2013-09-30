@@ -17,22 +17,24 @@ service 'nginx' do
   action [ :enable, :start ]
 end
 
-execute 'create-ssl-key' do
-  cwd '/etc/nginx'
-  user 'root'
+ssl_source = data_bag_item("rubycas", "nginx")
+
+cookbook_file ssl_cert do
+  cookbook 'sqm'
+  source "#{nagios_config["ssl_certificate"]}.crt"
+  owner 'root'
   group 'root'
-  umask 0077
-  command "openssl genrsa 2048 > #{ssl_cert_key}"
-  not_if { !https || File.exists?(ssl_cert_key) }
+  mode 0644
+  notifies :restart, 'service[nginx]'
 end
 
-execute 'create-ssl-cert' do
-  cwd '/etc/nginx'
-  user 'root'
+cookbook_file ssl_cert_key do
+  cookbook 'sqm'
+  source "#{nagios_config["ssl_certificate"]}.key"
+  owner 'root'
   group 'root'
-  umask 0077
-  command "openssl req -subj \"#{ssl_req}\" -new -x509 -nodes -sha1 -days 3650 -key #{ssl_cert_key} > #{ssl_cert}"
-  not_if { !https || File.exists?(ssl_cert) }
+  mode '644'
+  notifies :restart, 'service[apache2]'
 end
 
 # Render nginx template
