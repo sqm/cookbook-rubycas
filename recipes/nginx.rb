@@ -21,7 +21,7 @@ ssl_source = data_bag_item("rubycas", "nginx")
 
 cookbook_file ssl_cert do
   cookbook 'sqm'
-  source "#{nagios_config["ssl_certificate"]}.crt"
+  source "#{ssl_source["ssl_certificate"]}.crt"
   owner 'root'
   group 'root'
   mode 0644
@@ -30,7 +30,7 @@ end
 
 cookbook_file ssl_cert_key do
   cookbook 'sqm'
-  source "#{nagios_config["ssl_certificate"]}.key"
+  source "#{ssl_source["ssl_certificate"]}.key"
   owner 'root'
   group 'root'
   mode '644'
