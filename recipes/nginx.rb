@@ -59,6 +59,6 @@ link '/etc/nginx/sites-enabled/rubycas' do
   to '/etc/nginx/sites-available/rubycas'
 end
 
-link '/etc/nginx/sitesi-enabled/default' do
+link '/etc/nginx/sites-enabled/default' do
   action :delete
 end
