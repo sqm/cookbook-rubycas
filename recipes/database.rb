@@ -3,16 +3,22 @@
 # Recipe:: database
 #
 
-database_type = node[:rubycas][:database][:type]
+::Chef::Recipe.send(:include, Rubycas::Helper)
+
+db_config = database_config_from_databag
+
+database_type = database_config["type"]
 database_provider = database_type == 'mysql' ? Chef::Provider::Database::Mysql : Chef::Provider::Database::Postgresql
 database_user_provider = database_type == 'mysql' ? Chef::Provider::Database::MysqlUser : Chef::Provider::Database::PostgresqlUser
 
 # Add Database resources
 if database_type == 'mysql'
-  db_recipes = %w{
+  %w{
     mysql::server
     database::mysql
-  }
+  }.each do |recipe|
+    include_recipe recipe
+  end
 
   # database connection info
   database_connection_info = {
@@ -22,10 +28,12 @@ if database_type == 'mysql'
   }
 
 else
-  db_recipes = %w{
+  %w{
     postgresql::server
     database::postgresql
-  }
+  }.each do |recipe|
+    include_recipe recipe
+  end
 
   # database connection info
   database_connection_info = {
@@ -36,42 +44,27 @@ else
   }
 end
 
-# Include recipes for the database server
-db_recipes.each { |recipe| include_recipe recipe }
-
-# Enable secure password generation
-::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
-node.set_unless[:rubycas][:database][:password] = secure_password
-
-# Save the node data unless using Chef-Solo
-ruby_block 'save node data' do
-  block do
-    node.save
-  end
-  not_if { Chef::Config[:solo] }
-end
-
 # Create rubycas database
-database node[:rubycas][:database][:database] do
+database db_config["name"] do
   connection database_connection_info
   provider database_provider
   action :create
 end
 
 # Create rubycas database user
-database_user node[:rubycas][:user] do
+database_user db_config["username"] do
   connection database_connection_info
-  database_name node[:rubycas][:database][:database]
-  password node[:rubycas][:database][:password]
+  database_name db_config["name"]
+  password db_config["password"]
   provider database_user_provider
   action :create
 end
 
 # Grant privileges for rubycas database user
-database_user node[:rubycas][:user] do
+database_user db_config["username"] do
   connection database_connection_info
-  database_name node[:rubycas][:database][:database]
-  password node[:rubycas][:database][:password]
+  database_name db_config["name"]
+  password db_config["password"]
   provider database_user_provider
   host '%'
   action :grant

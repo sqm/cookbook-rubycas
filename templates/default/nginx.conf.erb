@@ -6,7 +6,7 @@ upstream <%= @app_name %> {
 }
 
 server {
-  listen      <%= @https_boolean ? 443 : 80 %> <%= "default_server" if @default_server %>;
+  listen      <%= @https_boolean ? 443 : 80 %> <%= "default" if @default_server %>;
   server_name <%= @server_name %>;
   root        <%= @app_home %>/public;
   client_max_body_size 4G;

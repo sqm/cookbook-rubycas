@@ -3,42 +3,35 @@
 # Recipe:: nginx
 #
 
-ssl_cert_key = node[:rubycas][:ssl_key]
-ssl_cert = node[:rubycas][:ssl_cert]
+include_recipe 'nginx::source'
+
+ssl_cert_key = node[:rubycas][:ssl][:ssl_key]
+ssl_cert = node[:rubycas][:ssl][:ssl_cert]
 https = node[:rubycas][:https]
-ssl_req = node[:rubycas][:ssl_req]
+ssl_req = node[:rubycas][:ssl][:ssl_req]
 
-if node[:rubycas][:nginx]
-  package 'nginx'
-end
+# Search databag/item specified by node attributes
+ssl_config = data_bag_item(node[:rubycas][:ssl][:databag], node[:rubycas][:ssl][:databag_item])
 
-service 'nginx' do
-  supports :status => true, :restart => true, :reload => true
-  action [ :enable, :start ]
-end
+# Create ssl cert and key files if we found a certificate and key
+if ssl_config["ssl_certificate"] && ssl_config["ssl_certificate_key"]
+  file ssl_cert do
+    owner 'root'
+    group 'root'
+    mode 077
+    content ssl_config["ssl_certificate"]
+  end
 
-ssl_source = data_bag_item("rubycas", "nginx")
-
-cookbook_file ssl_cert do
-  cookbook 'sqm'
-  source "#{ssl_source["ssl_certificate"]}.crt"
-  owner 'root'
-  group 'root'
-  mode 0644
-  notifies :restart, 'service[nginx]'
-end
-
-cookbook_file ssl_cert_key do
-  cookbook 'sqm'
-  source "#{ssl_source["ssl_certificate"]}.key"
-  owner 'root'
-  group 'root'
-  mode '644'
-  notifies :restart, 'service[apache2]'
+  file ssl_cert_key do
+    owner 'root'
+    group 'root'
+    mode 077
+    content ssl_config["ssl_certificate_key"]
+  end
 end
 
 # Render nginx template
-template '/etc/nginx/sites-available/rubycas' do
+template '/etc/nginx/sites-enabled/rubycas' do
   source 'nginx.conf.erb'
   owner 'root'
   group 'root'
@@ -53,12 +46,4 @@ template '/etc/nginx/sites-available/rubycas' do
     :ssl_cert => ssl_cert,
     :ssl_cert_key => ssl_cert_key
   )
-end
-
-link '/etc/nginx/sites-enabled/rubycas' do
-  to '/etc/nginx/sites-available/rubycas'
-end
-
-link '/etc/nginx/sites-enabled/default' do
-  action :delete
 end
