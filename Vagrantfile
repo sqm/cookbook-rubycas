@@ -19,10 +19,10 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision :shell, :path => "bootstrap.sh"
 
-  config.vm.define "rubycas" do |rubycas|
-    rubycas.vm.hostname = "rubycas-server-berkshelf"
-    rubycas.vm.network :private_network, ip: "33.33.33.10"
-    rubycas.vm.provision :chef_solo do |chef|
+  config.vm.define "app" do |app|
+    app.vm.hostname = "rubycas-app-server-berkshelf"
+    app.vm.network :private_network, ip: "33.33.33.10"
+    app.vm.provision :chef_solo do |chef|
       chef.data_bags_path = 'data_bags'
       chef.json = {}
 
@@ -33,10 +33,10 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define "mysql" do |mysql|
-    mysql.vm.hostname = "mysql-server-berkshelf"
-    mysql.vm.network :private_network, ip: "33.33.33.11"
-    mysql.vm.provision :chef_solo do |chef|
+  config.vm.define "database" do |database|
+    database.vm.hostname = "rubycas-database-server-berkshelf"
+    database.vm.network :private_network, ip: "33.33.33.11"
+    database.vm.provision :chef_solo do |chef|
       chef.data_bags_path = 'data_bags'
       chef.json = {
         :mysql => {

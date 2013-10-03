@@ -5,7 +5,15 @@
 
 ::Chef::Recipe.send(:include, Rubycas::Helper)
 
-include_recipe 'mysql::ruby'
+# Grab values from data bag/item based on node attributes
+authenticators = search_for_authenticators_config.authenticators
+
+# Grab values for database from data bag using Rubycas::Helper
+db_config = search_for_database_config
+
+# Install database adapter gem along with development headers
+# for database
+include_recipe "#{db_config.database_type}::ruby"
 
 # Install Ruby with RVM
 include_recipe 'rvm::system_install'
@@ -58,9 +66,6 @@ end
   end
 end
 
-authenticators = data_bag_item(node[:rubycas][:authenticators][:databag], node[:rubycas][:authenticators][:databag_item])["authenticators"]
-db_config = database_config_from_databag
-adapter_gem = database_adapter_gem
 
 # Create RubyCAS application configuration file
 template "#{node[:rubycas][:app_directory]}/config.yml" do
@@ -69,14 +74,14 @@ template "#{node[:rubycas][:app_directory]}/config.yml" do
   group node[:rubycas][:user]
   mode 0644
   variables(
-    :adapter => db_config["adapter"],
+    :database_adapter => db_config.adapter,
     :application_server => node[:rubycas][:application_server],
     :authenticators => authenticators,
-    :database_name => db_config["name"],
-    :database_password  => db_config["password"],
-    :database_user => db_config["username"],
-    :host => db_config["host"],
-    :port => db_config["port"],
+    :database_name => db_config.name,
+    :database_password  => db_config.password,
+    :database_user => db_config.username,
+    :database_host => db_config.host,
+    :database_port => db_config.port,
     :reconnect => node[:rubycas][:database][:reconnect],
     :ssl_cert_key_path => node[:rubycas][:ssl_key],
     :ssl_cert_path => node[:rubycas][:ssl_cert],
@@ -91,7 +96,7 @@ template "#{node[:rubycas][:app_directory]}/Gemfile" do
   group node[:rubycas][:user]
   mode 0744
   variables(
-    :adapter_gem => adapter_gem
+    :adapter_gem => db_config.database_adapter_gem
   )
 end
 
@@ -133,7 +138,7 @@ template '/etc/god/conf.d/rubycas.god' do
       :app_root => node[:rubycas][:app_directory],
       :worker_count => 3,
       :user => node[:rubycas][:user],
-      :watch_file => 'tmp/restart'
+      :watch_file => 'tmp/restart.txt'
   )
   notifies :restart, 'service[god]'
 end

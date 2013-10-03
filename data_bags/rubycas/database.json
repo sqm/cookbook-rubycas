@@ -1,6 +1,6 @@
 {
   "id": "database",
-  "type": "mysql",
+  "database_type": "mysql",
   "adapter": "mysql2",
   "name": "rubycas",
   "username": "rubycas",
