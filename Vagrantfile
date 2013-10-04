@@ -19,20 +19,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision :shell, :path => "bootstrap.sh"
 
-  config.vm.define "app" do |app|
-    app.vm.hostname = "rubycas-app-server-berkshelf"
-    app.vm.network :private_network, ip: "33.33.33.10"
-    app.vm.provision :chef_solo do |chef|
-      chef.data_bags_path = 'data_bags'
-      chef.json = {}
-
-      chef.run_list = [
-        "recipe[rubycas-server::default]",
-        "recipe[rubycas-server::nginx]"
-      ]
-    end
-  end
-
   config.vm.define "database" do |database|
     database.vm.hostname = "rubycas-database-server-berkshelf"
     database.vm.network :private_network, ip: "33.33.33.11"
@@ -59,6 +45,20 @@ Vagrant.configure("2") do |config|
 
       chef.run_list = [
         "recipe[rubycas-server::database]",
+      ]
+    end
+  end
+
+  config.vm.define "app" do |app|
+    app.vm.hostname = "rubycas-app-server-berkshelf"
+    app.vm.network :private_network, ip: "33.33.33.10"
+    app.vm.provision :chef_solo do |chef|
+      chef.data_bags_path = 'data_bags'
+      chef.json = {}
+
+      chef.run_list = [
+        "recipe[rubycas-server::default]",
+        "recipe[rubycas-server::nginx]"
       ]
     end
   end

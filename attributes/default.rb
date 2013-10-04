@@ -10,9 +10,8 @@ default[:rubycas][:git][:branch] = 'efd533fd958ea90b5c32be21467053c5bacb3223'
 default[:rubycas][:git][:url] = 'https://github.com/rubycas/rubycas-server'
 default[:rubycas][:application_server] = 'unicorn'
 default[:rubycas][:default_server] = true
-default[:rubycas][:use_ssl] = true
 default[:rubycas][:nginx] = true
-default[:rubycas][:port] = node[:rubycas][:https] ? 443 : 80
+default[:rubycas][:port] = 443
 
 # ssl
 default[:rubycas][:ssl][:ssl_cert] = "/etc/nginx/#{node[:fqdn]}.crt"

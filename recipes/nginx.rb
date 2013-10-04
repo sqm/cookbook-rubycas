@@ -11,8 +11,10 @@ include_recipe 'nginx::source'
 # Search data bag/item specified by node attributes
 ssl_config = search_for_ssl_config
 
+use_ssl = ssl_config.ssl_certificate && ssl_config.ssl_certificate_key
+
 # Create ssl cert and key files if we found a certificate and key
-if ssl_config.ssl_certificate && ssl_config.ssl_certificate_key
+if use_ssl
   file ssl_config.cert_file_path do
     owner 'root'
     group 'root'
@@ -37,9 +39,10 @@ template '/etc/nginx/sites-enabled/rubycas' do
   notifies :restart, 'service[nginx]'
   variables(
     :app_home => node[:rubycas][:app_directory],
+    :port => node[:rubycas][:port],
     :app_name => node[:rubycas][:user],
     :default_server => node[:rubycas][:default_server],
-    :https_boolean => ssl_config.use_ssl?,
+    :https_boolean => use_ssl,
     :server_name => node[:rubycas][:server_name],
     :ssl_cert => ssl_config.cert_file_path,
     :ssl_cert_key => ssl_config.key_file_path

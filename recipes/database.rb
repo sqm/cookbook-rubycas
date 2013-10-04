@@ -8,10 +8,7 @@
 db_config = search_for_database_config
 
 # Add Database resources
-%W{
-  #{db_config.database_type}::server
-  database::#{db_config.database_type}
-}.each do |recipe|
+db_config.required_recipes.each do |recipe|
   include_recipe recipe
 end
 
