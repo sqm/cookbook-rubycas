@@ -23,6 +23,12 @@ module Rubycas
           database::postgresql
         }
       end
+
+      def required_client_recipes
+        %w{
+          postgresql::ruby
+        }
+      end
     end
   end
 end

@@ -26,6 +26,10 @@ module Rubycas
       def required_recipes
         raise "Concrete class must implement #required_recipes"
       end
+
+      def required_client_recipes
+        raise "Concreate class must implement #required_client_recipes"
+      end
     end
   end
 end

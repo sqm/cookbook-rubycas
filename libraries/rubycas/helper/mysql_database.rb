@@ -23,6 +23,12 @@ module Rubycas
           database::mysql
         }
       end
+
+      def required_client_recipes
+        %w{
+          mysql::ruby
+        }
+      end
     end
   end
 end

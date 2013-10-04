@@ -13,7 +13,9 @@ db_config = search_for_database_config
 
 # Install database adapter gem along with development headers
 # for database
-include_recipe "#{db_config.database_type}::ruby"
+db_config.required_client_recipes.each do |recipe|
+  include_recipe recipe
+end
 
 # Install Ruby with RVM
 include_recipe 'rvm::system_install'
