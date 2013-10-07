@@ -1,0 +1,11 @@
+{
+  "id": "database",
+  "database_type": "mysql",
+  "adapter": "mysql2",
+  "name": "rubycas",
+  "username": "rubycas",
+  "password": "supersecurestuffhere",
+  "host": "33.33.33.11",
+  "port": 3306
+}
+

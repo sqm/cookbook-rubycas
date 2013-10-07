@@ -3,13 +3,12 @@ SINATRA_ROOT = "<%= @app_root %>"
 God.watch do |w|
   pid_file = File.join(SINATRA_ROOT, "tmp/pids/unicorn.pid")
 
-
-  w.name     = "<%= "#{@app_env}-unicorn" %>"
+  w.name = "<%= "#{@app_env}-unicorn" %>"
   w.dir = SINATRA_ROOT
   w.uid = "<%= @user %>"
-  w.start    = "bundle exec unicorn -c config/unicorn.rb"
+  w.start = "bundle exec unicorn -c config/unicorn.rb"
   w.restart = "kill -s HUP $(cat #{pid_file})"
-  w.interval = 60.seconds
+  w.interval = 5.seconds
   w.stop = "kill -s QUIT $(cat #{pid_file})"
   w.start_grace = 20.seconds
   w.restart_grace = 20.seconds
@@ -30,21 +29,7 @@ God.watch do |w|
   # When to restart a running deamon?
   w.restart_if do |restart|
     restart.condition(:file_touched) do |c|
-      c.path = '<%= @watch_file %>'
-    end
-  end
-
-  w.lifecycle do |on|
-    # Handle edge cases where deamon
-    # can't start for some reason
-    on.condition(:flapping) do |c|
-      c.to_state = [:start, :restart] # If God tries to start or restart
-      c.times = 5                     # five times
-      c.within = 5.minute             # within five minutes
-      c.transition = :unmonitored     # we want to stop monitoring
-      c.retry_in = 10.minutes         # for 10 minutes and monitor again
-      c.retry_times = 5               # we'll loop over this five times
-      c.retry_within = 2.hours        # and give up if flapping occured five times in two hours
+    c.path = "#{SINATRA_ROOT}/<%= @watch_file %>"
     end
   end
 end

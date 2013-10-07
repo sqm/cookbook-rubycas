@@ -6,11 +6,17 @@ upstream <%= @app_name %> {
 }
 
 server {
-  listen      <%= @https_boolean ? 443 : 80 %> <%= "default_server" if @default_server %>;
+  listen      <%= @port %> <%= "default" if @default_server %>;
   server_name <%= @server_name %>;
   root        <%= @app_home %>/public;
   client_max_body_size 4G;
-  <% if @https_boolean %>
+
+  <% if @force_ssl %>
+  # redirect all non ssl traffic to ssl
+  if ($scheme = http) {
+    return 301 https://$server_name$request_uri;
+  }
+
   ssl on;
   ssl_certificate <%= @ssl_cert %>;
   ssl_certificate_key <%= @ssl_cert_key %>;
@@ -19,6 +25,7 @@ server {
   # individual nginx logs for this gitlab vhost
   access_log  /var/log/nginx/<%= @app_name %>_access.log;
   error_log   /var/log/nginx/<%= @app_name %>_error.log;
+
 
   location / {
     # serve static files from defined root folder;.

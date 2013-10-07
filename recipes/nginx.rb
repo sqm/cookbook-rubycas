@@ -3,40 +3,35 @@
 # Recipe:: nginx
 #
 
-ssl_cert_key = node[:rubycas][:ssl_key]
-ssl_cert = node[:rubycas][:ssl_cert]
-https = node[:rubycas][:https]
-ssl_req = node[:rubycas][:ssl_req]
+::Chef::Recipe.send(:include, Rubycas::Helper)
 
-if node[:rubycas][:nginx]
-  package 'nginx'
-end
+# Compile nginx so we get a recent version
+include_recipe 'nginx::source'
 
-service 'nginx' do
-  supports :status => true, :restart => true, :reload => true
-  action [ :enable, :start ]
-end
+# Search data bag/item specified by node attributes
+ssl_config = search_for_ssl_config
 
-execute 'create-ssl-key' do
-  cwd '/etc/nginx'
-  user 'root'
-  group 'root'
-  umask 0077
-  command "openssl genrsa 2048 > #{ssl_cert_key}"
-  not_if { !https || File.exists?(ssl_cert_key) }
-end
+force_ssl = ssl_config.ssl_certificate && ssl_config.ssl_certificate_key
 
-execute 'create-ssl-cert' do
-  cwd '/etc/nginx'
-  user 'root'
-  group 'root'
-  umask 0077
-  command "openssl req -subj \"#{ssl_req}\" -new -x509 -nodes -sha1 -days 3650 -key #{ssl_cert_key} > #{ssl_cert}"
-  not_if { !https || File.exists?(ssl_cert) }
+# Create ssl cert and key files if we found a certificate and key
+if force_ssl
+  file ssl_config.cert_file_path do
+    owner 'root'
+    group 'root'
+    mode 077
+    content ssl_config.ssl_certificate
+  end
+
+  file ssl_config.key_file_path do
+    owner 'root'
+    group 'root'
+    mode 077
+    content ssl_config.ssl_certificate_key
+  end
 end
 
 # Render nginx template
-template '/etc/nginx/sites-available/rubycas' do
+template '/etc/nginx/sites-enabled/rubycas' do
   source 'nginx.conf.erb'
   owner 'root'
   group 'root'
@@ -44,19 +39,12 @@ template '/etc/nginx/sites-available/rubycas' do
   notifies :restart, 'service[nginx]'
   variables(
     :app_home => node[:rubycas][:app_directory],
+    :port => node[:rubycas][:port],
     :app_name => node[:rubycas][:user],
     :default_server => node[:rubycas][:default_server],
-    :https_boolean => node[:rubycas][:https],
+    :force_ssl => force_ssl,
     :server_name => node[:rubycas][:server_name],
-    :ssl_cert => ssl_cert,
-    :ssl_cert_key => ssl_cert_key
+    :ssl_cert => ssl_config.cert_file_path,
+    :ssl_cert_key => ssl_config.key_file_path
   )
-end
-
-link '/etc/nginx/sites-enabled/rubycas' do
-  to '/etc/nginx/sites-available/rubycas'
-end
-
-link '/etc/nginx/sitesi-enabled/default' do
-  action :delete
 end

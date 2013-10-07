@@ -4,10 +4,11 @@ maintainer_email 'cstephan@squaremouth.com'
 license          'All rights reserved'
 description      'Installs/Configures rubycas-server'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.1.0'
+version          '0.1.2'
 
 depends 'database'
 depends 'god'
 depends 'mysql'
+depends 'nginx'
 depends 'postgresql'
 depends 'rvm'

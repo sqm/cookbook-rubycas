@@ -3,12 +3,23 @@
 # Recipe:: default
 #
 
+::Chef::Recipe.send(:include, Rubycas::Helper)
+
+# Grab values from data bag/item based on node attributes
+authenticators = search_for_authenticators_config.authenticators
+
+# Grab values for database from data bag using Rubycas::Helper
+db_config = search_for_database_config
+
+# Install database adapter gem along with development headers
+# for database
+db_config.required_client_recipes.each do |recipe|
+  include_recipe recipe
+end
+
 # Install Ruby with RVM
 include_recipe 'rvm::system_install'
 rvm_environment node[:rubycas][:ruby_version]
-
-# setup database
-include_recipe 'rubycas-server::database'
 
 # Create RubyCAS user with directory
 user node[:rubycas][:user] do
@@ -57,7 +68,6 @@ end
   end
 end
 
-authenticators = data_bag_item("rubycas", "authenticator")["authenticators"]
 
 # Create RubyCAS application configuration file
 template "#{node[:rubycas][:app_directory]}/config.yml" do
@@ -66,22 +76,20 @@ template "#{node[:rubycas][:app_directory]}/config.yml" do
   group node[:rubycas][:user]
   mode 0644
   variables(
-    :adapter => node[:rubycas][:database][:adapter],
+    :database_adapter => db_config.adapter,
     :application_server => node[:rubycas][:application_server],
     :authenticators => authenticators,
-    :database_name => node[:rubycas][:database][:database],
-    :database_password  => node[:rubycas][:database][:password],
-    :database_user => node[:rubycas][:database][:user],
-    :host => node[:rubycas][:database][:host],
-    :port => node[:rubycas][:port],
+    :database_name => db_config.name,
+    :database_password  => db_config.password,
+    :database_user => db_config.username,
+    :database_host => db_config.host,
+    :database_port => db_config.port,
     :reconnect => node[:rubycas][:database][:reconnect],
     :ssl_cert_key_path => node[:rubycas][:ssl_key],
     :ssl_cert_path => node[:rubycas][:ssl_cert],
     :uri_path => node[:rubycas][:uri_path]
   )
 end
-
-database_type = node[:rubycas][:database][:type]
 
 # Create Gemfile
 template "#{node[:rubycas][:app_directory]}/Gemfile" do
@@ -90,7 +98,7 @@ template "#{node[:rubycas][:app_directory]}/Gemfile" do
   group node[:rubycas][:user]
   mode 0744
   variables(
-    :adapter_gem => node[:rubycas][:database][:adapter_gem]
+    :adapter_gem => db_config.database_adapter_gem
   )
 end
 
@@ -132,6 +140,7 @@ template '/etc/god/conf.d/rubycas.god' do
       :app_root => node[:rubycas][:app_directory],
       :worker_count => 3,
       :user => node[:rubycas][:user],
-      :watch_file => 'tmp/restart'
+      :watch_file => 'tmp/restart.txt'
   )
+  notifies :restart, 'service[god]'
 end
