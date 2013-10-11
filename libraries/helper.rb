@@ -1,13 +1,6 @@
-%w{
-  helper/config
-  helper/database_config
-  helper/ssl_config
-  helper/authenticators_config
-  helper/postgres_database
-  helper/mysql_database
-}.each do |file|
-  require File.join(File.dirname(__FILE__), file)
-end
+require File.join(File.dirname(__FILE__), 'authenticators_config')
+require File.join(File.dirname(__FILE__), 'database_config')
+require File.join(File.dirname(__FILE__), 'ssl_config')
 
 module Rubycas
   module Helper
