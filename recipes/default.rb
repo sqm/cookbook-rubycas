@@ -21,6 +21,11 @@ end
 include_recipe 'rvm::system_install'
 rvm_environment node[:rubycas][:ruby_version]
 
+service "rubycas-unicorn" do
+  restart_command "touch #{node[:rubycas][:app_directory]}/tmp/restart.txt"
+  supports :restart => true
+end
+
 # Create RubyCAS user with directory
 user node[:rubycas][:user] do
   home node[:rubycas][:dir]
@@ -89,6 +94,7 @@ template "#{node[:rubycas][:app_directory]}/config.yml" do
     :ssl_cert_path => node[:rubycas][:ssl_cert],
     :uri_path => node[:rubycas][:uri_path]
   )
+  notifies :restart, 'service[rubycas-unicorn]'
 end
 
 # Create Gemfile
@@ -100,6 +106,7 @@ template "#{node[:rubycas][:app_directory]}/Gemfile" do
   variables(
     :adapter_gem => db_config.database_adapter_gem
   )
+  notifies :restart, 'service[rubycas-unicorn]'
 end
 
 # Install dependencies for RubyCAS application using rvm_shell LWRP
