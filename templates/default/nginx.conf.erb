@@ -13,6 +13,7 @@ server {
   # redirect all requests to ssl
   rewrite  ^/(.*)$  https://$host/$1 permanent;
 }
+<% end %>
 
 server {
   listen      <%= @port %> <%= "default" if @default_server %>;
