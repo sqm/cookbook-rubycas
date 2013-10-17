@@ -1,4 +1,4 @@
-# rubycas-server cookbook
+# rubycas cookbook
 
 # Requirements
 

@@ -1,11 +1,11 @@
 require_relative 'spec_helper'
 
-describe 'rubycas-server::default' do
+describe 'rubycas::default' do
   before(:each) do
     @chef_run                       = ChefSpec::ChefRunner.new(CHEF_RUN_OPTIONS)
     @chef_run.node.set[:mysql]      = MYSQL_ATTRIBUTE_OPTIONS
     @chef_run.node.set[:postgres]   = POSTGRES_ATTRIBUTE_OPTIONS
-    @chef_run_with_converge = @chef_run.converge 'rubycas-server::default'
+    @chef_run_with_converge = @chef_run.converge 'rubycas::default'
   end
 
   it "should include the rvm::system-install recipe" do
@@ -16,8 +16,8 @@ describe 'rubycas-server::default' do
     expect(@chef_run_with_converge).to create_user @chef_run.node[:rubycas][:user]
   end
 
-  it "should include the rubycas-server::database recipe" do
-    expect(@chef_run_with_converge).to include_recipe 'rubycas-server::database'
+  it "should include the rubycas::database recipe" do
+    expect(@chef_run_with_converge).to include_recipe 'rubycas::database'
   end
 
   it "should add a bash.rc file with rvm for the application user" do

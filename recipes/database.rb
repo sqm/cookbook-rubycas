@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: rubycas-server
+# Cookbook Name:: rubycas
 # Recipe:: database
 #
 
