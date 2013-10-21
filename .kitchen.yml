@@ -23,5 +23,5 @@ platforms:
 
 suites:
 - name: default
-  run_list: ["recipe[rubycas-server]"]
+  run_list: ["recipe[rubycas::server]"]
   attributes: {}

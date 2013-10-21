@@ -44,7 +44,7 @@ Vagrant.configure("2") do |config|
       }
 
       chef.run_list = [
-        "recipe[rubycas-server::database]",
+        "recipe[rubycas::database]",
       ]
     end
   end
@@ -57,8 +57,8 @@ Vagrant.configure("2") do |config|
       chef.json = {}
 
       chef.run_list = [
-        "recipe[rubycas-server::default]",
-        "recipe[rubycas-server::nginx]"
+        "recipe[rubycas::server]",
+        "recipe[rubycas::nginx]"
       ]
     end
   end
