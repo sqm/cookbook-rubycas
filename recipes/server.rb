@@ -73,7 +73,6 @@ end
   end
 end
 
-
 # Create RubyCAS application configuration file
 template "#{node[:rubycas][:app_directory]}/config.yml" do
   source 'config.yml.erb'
