@@ -7,7 +7,7 @@ upstream <%= @app_name %> {
 
 <% if @force_ssl %>
 server {
-  listen 80;
+  listen 80 <%= "default" if @default_server %>;
   server_name <%= @server_name %>;
 
   # redirect all requests to ssl
