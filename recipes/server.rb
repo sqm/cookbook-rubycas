@@ -73,7 +73,6 @@ end
   end
 end
 
-
 # Create RubyCAS application configuration file
 template "#{node[:rubycas][:app_directory]}/config.yml" do
   source 'config.yml.erb'
@@ -92,7 +91,10 @@ template "#{node[:rubycas][:app_directory]}/config.yml" do
     :reconnect => node[:rubycas][:database][:reconnect],
     :ssl_cert_key_path => node[:rubycas][:ssl_key],
     :ssl_cert_path => node[:rubycas][:ssl_cert],
-    :uri_path => node[:rubycas][:uri_path]
+    :uri_path => node[:rubycas][:uri_path],
+    :webui_infoline => node[:rubycas][:webui][:infoline],
+    :webui_organization => node[:rubycas][:webui][:organization],
+    :webui_theme => node[:rubycas][:webui][:theme]
   )
   notifies :restart, 'service[rubycas-unicorn]'
 end
