@@ -80,14 +80,15 @@ template "#{node[:rubycas][:app_directory]}/config.yml" do
   group node[:rubycas][:user]
   mode 0644
   variables(
-    :database_adapter => db_config.adapter,
     :application_server => node[:rubycas][:application_server],
     :authenticators => authenticators,
+    :custom_views => node[:ruby_cas][:custom_views],
+    :database_adapter => db_config.adapter,
+    :database_host => db_config.host,
     :database_name => db_config.name,
     :database_password  => db_config.password,
-    :database_user => db_config.username,
-    :database_host => db_config.host,
     :database_port => db_config.port,
+    :database_user => db_config.username,
     :reconnect => node[:rubycas][:database][:reconnect],
     :ssl_cert_key_path => node[:rubycas][:ssl_key],
     :ssl_cert_path => node[:rubycas][:ssl_cert],
