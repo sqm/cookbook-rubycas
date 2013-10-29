@@ -83,6 +83,7 @@ template "#{node[:rubycas][:app_directory]}/config.yml" do
     :database_adapter => db_config.adapter,
     :application_server => node[:rubycas][:application_server],
     :authenticators => authenticators,
+    :custom_views => node[:ruby_cas][:custom_views],
     :database_name => db_config.name,
     :database_password  => db_config.password,
     :database_user => db_config.username,

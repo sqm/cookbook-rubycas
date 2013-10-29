@@ -33,6 +33,7 @@ default[:rubycas][:database][:data_bag_item] = 'database'
 default[:rubycas][:database][:reconnect] = true
 
 # Configurable UI defaults
+default[:rubycas][:custom_views] = 'lib/casserver/views'
 default[:rubycas][:webui][:infoline] = 'Powered by <a href="http://rubycas.github.com">RubyCAS-Server</a>'
 default[:rubycas][:webui][:organization] = "CAS"
 default[:rubycas][:webui][:theme] = "simple"
