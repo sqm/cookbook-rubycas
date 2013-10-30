@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
   config.ssh.timeout   = 120
   config.berkshelf.enabled = true
 
-  config.vm.provision :shell, :path => "bootstrap.sh"
+  config.vm.provision :shell, :path => "script/bootstrap.sh"
 
   config.vm.define "database" do |database|
     database.vm.hostname = "rubycas-database-server-berkshelf"
@@ -47,6 +47,7 @@ Vagrant.configure("2") do |config|
         "recipe[rubycas::database]",
       ]
     end
+    database.vm.provision :shell, :path => "script/create_mock_authenticator_db.sh"
   end
 
   config.vm.define "app" do |app|
