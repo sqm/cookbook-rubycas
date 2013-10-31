@@ -6,12 +6,12 @@
         "class": "CASServer::Authenticators::SQLAuthlogic",
         "database": {
           "adapter": "mysql2",
-          "database":  "viper_cms",
-          "username":  "root",
-          "password":  "",
-          "host": "33.33.33.1"
+          "database":  "test_auth_db",
+          "username":  "rubycas",
+          "password":  "supersecurestuffhere",
+          "host": "33.33.33.11"
         },
-        "user_table": "admin_users",
+        "user_table": "users",
         "username_column": "login",
         "password_column": "crypted_password",
         "salt_column": "password_salt",
