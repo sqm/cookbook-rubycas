@@ -31,7 +31,7 @@ user node[:rubycas][:user] do
   home node[:rubycas][:dir]
   comment 'RubyCAS Application User'
   supports :manage_home => true
-  shell '/bin/bash'
+  shell '/bin/false'
 end
 
 # Add RubyCAS user to RVM group
