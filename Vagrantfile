@@ -13,8 +13,6 @@ Vagrant.configure("2") do |config|
      vb.customize ["modifyvm", :id, "--cpus", CORES.to_i]
    end
 
-  config.ssh.max_tries = 40
-  config.ssh.timeout   = 120
   config.berkshelf.enabled = true
 
   config.vm.provision :shell, :path => "bootstrap.sh"

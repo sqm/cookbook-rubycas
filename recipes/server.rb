@@ -82,7 +82,7 @@ template "#{node[:rubycas][:app_directory]}/config.yml" do
   variables(
     :application_server => node[:rubycas][:application_server],
     :authenticators => authenticators,
-    :custom_views => node[:ruby_cas][:custom_views],
+    :custom_views => node[:rubycas][:custom_views],
     :database_adapter => db_config.adapter,
     :database_host => db_config.host,
     :database_name => db_config.name,
