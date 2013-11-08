@@ -1,5 +1,10 @@
 # rubycas cookbook
 
+The `vagrant-berkshelf` and `vagrant-omnibus` plugins are both necessary to use Vagrant for development of this cookbook, and can be installed with the commands:
+
+    vagrant plugin install vagrant-berkshelf
+    vagrant plugin install vagrant-omnibus
+
 # Requirements
 
 # Usage
@@ -10,4 +15,4 @@
 
 # Author
 
-Author:: YOUR_NAME (<YOUR_EMAIL>)
+Author:: Squaremouth (<devops@squaremouth.com>)
