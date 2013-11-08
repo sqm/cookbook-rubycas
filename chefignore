@@ -54,6 +54,7 @@ features/*
 Guardfile
 Procfile
 data_bags/*
+.kitchen.yml
 
 # SCM #
 #######
