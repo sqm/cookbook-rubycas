@@ -1,6 +1,9 @@
-# rubycas cookbook
+Installs and configures a [RubyCAS Server](https://github.com/rubycas/rubycas-server)
 
-Instalss and configures a [RubyCAS Server](https://github.com/rubycas/rubycas-server)
+The `vagrant-berkshelf` and `vagrant-omnibus` plugins are both necessary to use Vagrant for development of this cookbook, and can be installed with the commands:
+
+    vagrant plugin install vagrant-berkshelf
+    vagrant plugin install vagrant-omnibus
 
 # Recipes
 
@@ -11,4 +14,4 @@ Instalss and configures a [RubyCAS Server](https://github.com/rubycas/rubycas-se
 
 # Author
 
-Author:: Squaremouth, Inc. (devops@squaremouth.com)
+Author:: Squaremouth (<devops@squaremouth.com>)
