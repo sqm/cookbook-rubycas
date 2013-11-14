@@ -28,6 +28,7 @@ end
 
 # Create RubyCAS user with directory
 user node[:rubycas][:user] do
+  uid 2345
   home node[:rubycas][:dir]
   comment 'RubyCAS Application User'
   supports :manage_home => true
