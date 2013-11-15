@@ -6,6 +6,7 @@ default[:rubycas][:ruby_version] = 'ruby-1.9.3-p448'
 default[:rubycas][:dir] = '/home/rubycas'
 default[:rubycas][:app_directory] = "#{node[:rubycas][:dir]}/rubycas-server"
 default[:rubycas][:user] = 'rubycas'
+default[:rubycas][:user_uid] = 2345
 default[:rubycas][:git][:branch] = 'efd533fd958ea90b5c32be21467053c5bacb3223'
 default[:rubycas][:git][:url] = 'https://github.com/rubycas/rubycas-server'
 default[:rubycas][:application_server] = 'unicorn'
