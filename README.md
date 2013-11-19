@@ -6,14 +6,14 @@ Installs and configures a [RubyCAS Server](https://github.com/rubycas/rubycas-se
 
 * `rubycas::database` - Installs and configures a database for RubyCAS Server. 
 * `rubycas::default`  - Default noop cookbook recipe. 
-* `rubycas::nginx`    - Installs and conifgures the Nginx Web Server for the application. 
-* `rubycas::server`   - Installs and conifgures the RubyCAS Server application. 
+* `rubycas::nginx`    - Installs and configures the Nginx Web Server for the application. 
+* `rubycas::server`   - Installs and configures the RubyCAS Server application. 
 
 ## Development
 
 Development requires [VirtualBox 4.2.18](https://www.virtualbox.org/wiki/Download_Old_Builds_4_2) and [Vagrant 1.3.5](http://downloads.vagrantup.com/tags/v1.3.5).
 
-Get up and running quickly with the following these steps.
+Get up and running quickly by following these steps.
 
 ```bash
 vagrant plugin install vagrant-berkshelf
