@@ -11,7 +11,7 @@ Installs and configures a [RubyCAS Server](https://github.com/rubycas/rubycas-se
 
 ## Development
 
-Development requires [Vagrant](http://vagrantup.com).
+Development requires [VirtualBox 4.2.18](https://www.virtualbox.org/wiki/Download_Old_Builds_4_2) and [Vagrant 1.3.5](http://downloads.vagrantup.com/tags/v1.3.5).
 
 Get up and running quickly with the following these steps.
 
