@@ -14,6 +14,9 @@ default[:rubycas][:default_server] = true
 default[:rubycas][:nginx] = true
 default[:rubycas][:port] = 443
 
+# load balancer
+default[:rubycas][:is_load_balanced] = false
+
 # ssl
 default[:rubycas][:ssl][:ssl_cert] = "/etc/nginx/#{node[:fqdn]}.crt"
 default[:rubycas][:ssl][:ssl_key] = "/etc/nginx/#{node[:fqdn]}.key"

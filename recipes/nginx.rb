@@ -45,6 +45,8 @@ template '/etc/nginx/sites-enabled/rubycas' do
     :force_ssl => force_ssl,
     :server_name => node[:rubycas][:server_name],
     :ssl_cert => ssl_config.cert_file_path,
-    :ssl_cert_key => ssl_config.key_file_path
+    :ssl_cert_key => ssl_config.key_file_path,
+    :is_load_balanced => node[:rubycas][:is_load_balanced],
+    :load_balancer_ip => node[:rubycas][:load_balancer_ip]
   )
 end
