@@ -9,6 +9,16 @@ Installs and configures a [RubyCAS Server](https://github.com/rubycas/rubycas-se
 * `rubycas::nginx`    - Installs and configures the Nginx Web Server for the application. 
 * `rubycas::server`   - Installs and configures the RubyCAS Server application. 
 
+## Load Balancer Support
+If you need to deploy your RubyCAS server behind a load balancer, you
+will need to set these attributes:
+
+* `node[:rubycas][:is_load_balanced] = true`
+* `node[:rubycas][:load_balancer_ip] = '192.0.0.0/8'`
+
+The `node[:rubycas][:load_balancer_ip]` attribute accepts an explicit ip
+address or one in CIDR notation.
+
 ## Development
 
 Development requires [VirtualBox](https://www.virtualbox.org/) and [Vagrant](http://vagrantup.com).
