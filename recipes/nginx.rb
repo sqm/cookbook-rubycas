@@ -5,6 +5,9 @@
 
 ::Chef::Recipe.send(:include, Rubycas::Helper)
 
+# Add in extra modules for load balancer support
+node.default[:nginx][:source][:modules] << 'nginx::http_realip_module'
+
 # Compile nginx so we get a recent version
 include_recipe 'nginx::source'
 
