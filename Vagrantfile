@@ -8,10 +8,11 @@ Vagrant.configure("2") do |config|
   config.vm.box = "precise64"
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
   
-   config.vm.provider :virtualbox do |vb|
-     vb.customize ["modifyvm", :id, "--memory", MEMORY.to_i]
-     vb.customize ["modifyvm", :id, "--cpus", CORES.to_i]
-   end
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", MEMORY.to_i]
+    vb.customize ["modifyvm", :id, "--cpus", CORES.to_i]
+  end
+
   config.berkshelf.enabled = true
   config.omnibus.chef_version = :latest
 
