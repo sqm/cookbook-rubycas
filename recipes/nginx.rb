@@ -7,18 +7,20 @@
 
 
 # Ensure we get a recent version of nginx
-node.default['nginx']['version']            = "1.4.1"
-node.default['nginx']['source']['checksum'] = "bca5d1e89751ba29406185e1736c390412603a7e6b604f5b4575281f6565d119"
-node.default['nginx']['source']['url']      = "http://nginx.org/download/nginx-#{node['nginx']['version']}.tar.gz"
+node.default[:nginx][:version]            = '1.4.4'
+node.default[:nginx][:source][:version]   = node[:nginx][:version]
+node.default[:nginx][:source][:prefix]    = "/opt/nginx-#{node[:nginx][:version]}"
+node.default[:nginx][:source][:checksum]  = '7c989a58e5408c9593da0bebcd0e4ffc3d892d1316ba5042ddb0be5b0b4102b9'
+node.default[:nginx][:source][:url]       = "http://nginx.org/download/nginx-#{node[:nginx][:version]}.tar.gz"
+node.default[:nginx][:source][:sbin_path] = "#{node[:nginx][:source][:prefix]}/sbin/nginx"
 
-node.default['nginx']['source']['prefix']   = "/opt/nginx-#{node['nginx']['version']}"
-node.default['nginx']['source']['default_configure_flags'] = [
-  "--prefix=#{node['nginx']['source']['prefix']}",
-  "--conf-path=#{node['nginx']['dir']}/nginx.conf"
+node.default[:nginx][:source][:default_configure_flags] = [
+  "--prefix=#{node[:nginx][:source][:prefix]}",
+  "--conf-path=#{node[:nginx][:dir]}/nginx.conf"
 ]
 
 # Add in extra modules for load balancer support
-node.default[:nginx][:source][:modules] << 'http_realip_module'
+node.default[:nginx][:source][:modules] << 'nginx::http_realip_module'
 
 include_recipe 'nginx::source'
 

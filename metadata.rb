@@ -9,6 +9,6 @@ version          '0.3.2'
 depends 'database'
 depends 'god'
 depends 'mysql'
-depends 'nginx', "= 1.4.0"
+depends 'nginx'
 depends 'postgresql'
 depends 'rvm'

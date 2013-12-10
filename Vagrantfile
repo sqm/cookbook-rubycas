@@ -16,6 +16,7 @@ Vagrant.configure("2") do |config|
   config.berkshelf.enabled = true
   config.omnibus.chef_version = :latest
 
+  config.vm.provision :shell, :inline => "ulimit -n 10000"
   config.vm.provision :shell, :path => "script/bootstrap.sh"
 
   config.vm.define "database" do |database|
