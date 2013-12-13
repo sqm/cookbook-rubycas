@@ -6,8 +6,8 @@ God.watch do |w|
   w.name = "<%= "#{@app_env}-unicorn" %>"
   w.dir = SINATRA_ROOT
   w.uid = "<%= @user %>"
-  w.start = "bundle exec unicorn -c config/unicorn.rb"
-  w.restart = "kill -s HUP $(cat #{pid_file})"
+  w.start = "bundle exec unicorn --config-file config/unicorn.rb --daemonize"
+  w.restart = "kill -s USR2 $(cat #{pid_file})"
   w.interval = 5.seconds
   w.stop = "kill -s QUIT $(cat #{pid_file})"
   w.start_grace = 20.seconds

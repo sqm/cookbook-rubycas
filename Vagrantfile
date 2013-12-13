@@ -8,14 +8,16 @@ Vagrant.configure("2") do |config|
   config.vm.box = "precise64"
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
   
-   config.vm.provider :virtualbox do |vb|
-     vb.customize ["modifyvm", :id, "--memory", MEMORY.to_i]
-     vb.customize ["modifyvm", :id, "--cpus", CORES.to_i]
-   end
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", MEMORY.to_i]
+    vb.customize ["modifyvm", :id, "--cpus", CORES.to_i]
+  end
 
   config.berkshelf.enabled = true
+  config.omnibus.chef_version = :latest
 
-  config.vm.provision :shell, :path => "bootstrap.sh"
+  config.vm.provision :shell, :inline => "ulimit -n 10000"
+  config.vm.provision :shell, :path => "script/bootstrap.sh"
 
   config.vm.define "database" do |database|
     database.vm.hostname = "rubycas-database-server-berkshelf"
@@ -45,6 +47,7 @@ Vagrant.configure("2") do |config|
         "recipe[rubycas::database]",
       ]
     end
+    database.vm.provision :shell, :path => "script/create_mock_authenticator_db.sh"
   end
 
   config.vm.define "app" do |app|
