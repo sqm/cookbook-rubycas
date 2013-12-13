@@ -1,4 +1,5 @@
 require 'chefspec'
+require 'json'
 require 'pry'
 require 'pry-remote'
 
@@ -19,6 +20,11 @@ POSTGRES_ATTRIBUTE_OPTIONS = {
     :postgres => 'kjsdhgkj'
   }
 }
+
+# load example data bag item JSON file
+def load_databag_json(filename)
+  File.open(File.expand_path("../../data_bags/rubycas/#{filename}", __FILE__), "r") { |f| JSON.load(f) }
+end
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true

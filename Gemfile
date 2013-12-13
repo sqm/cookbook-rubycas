@@ -9,4 +9,5 @@ gem 'rvm' # rvm cookbook
 gem 'pry'
 gem 'pry-remote'
 gem 'pry-debugger'
-
+gem 'guard'
+gem 'guard-bundler'
