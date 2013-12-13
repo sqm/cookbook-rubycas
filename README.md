@@ -40,6 +40,17 @@ Access the VMs via the following commands:
 * `vagrant ssh app` for the application VM.
 * `vagrant ssh database` for the database VM.
 
+## Testing
+
+To run Spec tests:
+```bash
+bundle exec strainer test
+```
+
+To run Integration tests with Kitchen-CI
+```bash
+kitchen test default-ubuntu-1204
+```
 ## Contributing
 
 1. Fork repository on GitHub.
