@@ -15,6 +15,10 @@ describe 'rubycas::nginx' do
     stub_data_bag_item("rubycas", "ssl").and_return(ssl_data_bag)
   end
 
+  it "should have the 'nginx::http_realip_module' value in the node['nginx']['source']['modules'] attribute" do
+    expect(chef_run_converge.node.attribute.nginx.source.modules.include?("nginx::http_realip_module")).to be_true
+  end
+
   it "should include the nginx::source recipe" do
     expect(chef_run_converge).to include_recipe 'nginx::source'
   end
