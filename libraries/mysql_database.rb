@@ -5,6 +5,10 @@ module Rubycas
         'mysql2'
       end
 
+      def root_user
+        'root'
+      end
+
       def database_provider
         Chef::Provider::Database::Mysql
       end

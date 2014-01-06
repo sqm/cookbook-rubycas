@@ -14,34 +14,34 @@ end
 
 # database connection info
 database_connection_info = {
-  :host     => 'localhost',
-  :username => db_config.database_adapter_gem == "pg" ? "postgres" : "root",
-  :port     => db_config.port,
+  :host => 'localhost',
+  :username => db_config.root_user,
+  :port => db_config.port,
   :password => db_config.node_root_password
 }
 
 # Create rubycas database
 database db_config.name do
   connection database_connection_info
-  provider   db_config.database_provider
-  action     :create
+  provider db_config.database_provider
+  action :create
 end
 
 # Create rubycas database user
 database_user db_config.username do
-  connection    database_connection_info
+  connection database_connection_info
   database_name db_config.name
-  password      db_config.password
-  provider      db_config.database_user_provider
-  action        :create
+  password db_config.password
+  provider db_config.database_user_provider
+  action :create
 end
 
 # Grant privileges for rubycas database user
 database_user db_config.username do
-  connection    database_connection_info
+  connection database_connection_info
   database_name db_config.name
-  password      db_config.password
-  provider      db_config.database_user_provider
-  host          '%'
-  action        :grant
+  password db_config.password
+  provider db_config.database_user_provider
+  host '%'
+  action :grant
 end

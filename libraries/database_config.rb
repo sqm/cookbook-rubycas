@@ -13,6 +13,10 @@ module Rubycas
         raise "Concrete class must implement #database_adapter_gem"
       end
 
+      def root_user
+        raise "Concrete class must implement #root_user"
+      end
+
       def database_provider
         raise "Concrete class must implement #database_provider"
       end

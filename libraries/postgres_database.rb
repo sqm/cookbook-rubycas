@@ -5,6 +5,10 @@ module Rubycas
         'pg'
       end
 
+      def root_user
+        'postgres'
+      end
+
       def database_provider
         Chef::Provider::Database::Postgresql
       end
