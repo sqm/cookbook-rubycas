@@ -155,3 +155,10 @@ template '/etc/god/conf.d/rubycas.god' do
   )
   notifies :restart, 'service[god]'
 end
+
+logrotate_app "rubycas" do
+  frequency "daily"
+  options   %w{dateext missingok compress delaycompress copytruncate}
+  path      "#{node[:rubycas][:app_directory]}/log/*.log"
+  rotate    30
+end

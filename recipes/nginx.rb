@@ -23,6 +23,7 @@ node.default[:nginx][:source][:default_configure_flags] = [
 node.default[:nginx][:source][:modules] << 'nginx::http_realip_module'
 
 include_recipe 'nginx::source'
+include_recipe 'logrotate'
 
 # Search data bag/item specified by node attributes
 ssl_config = search_for_ssl_config
@@ -65,4 +66,11 @@ template '/etc/nginx/sites-enabled/rubycas' do
     :is_load_balanced => node[:rubycas][:is_load_balanced],
     :load_balancer_ip => node[:rubycas][:load_balancer_ip]
   )
+end
+
+logrotate_app "nginx" do
+  frequency "daily"
+  options   %w{dateext missingok compress delaycompress copytruncate}
+  path      "/var/log/nginx/*.log"
+  rotate    30
 end
