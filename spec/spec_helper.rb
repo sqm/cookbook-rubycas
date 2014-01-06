@@ -23,7 +23,7 @@ POSTGRES_ATTRIBUTE_OPTIONS = {
 
 # load example data bag item JSON file
 def load_databag_json(filename)
-  File.open(File.expand_path("../../data_bags/rubycas/#{filename}", __FILE__), "r") { |f| JSON.load(f) }
+  File.open(File.expand_path("../../data_bags/rubycas/#{filename}", __FILE__), "r") { |f| MultiJson.load(f) }
 end
 
 RSpec.configure do |config|

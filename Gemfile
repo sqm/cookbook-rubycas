@@ -11,6 +11,7 @@ gem 'pry-remote'
 gem 'pry-debugger'
 gem 'guard'
 gem 'guard-bundler'
+gem 'multi_json'
 
 # integration testing
 gem 'kitchen-vagrant'
