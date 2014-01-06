@@ -22,7 +22,7 @@ def run_strainer
 end
 
 guard :guard, default_guard_options do
-  watch(%r{(.+?)/.*\.(rb|erb)}) { run_strainer }
+  watch(%r{.*(rb|erb)$}) { run_strainer }
 end
 
 guard :bundler, default_guard_options do

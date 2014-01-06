@@ -1,5 +1,5 @@
 require 'chefspec'
-require 'json'
+require 'multi_json'
 require 'pry'
 require 'pry-remote'
 

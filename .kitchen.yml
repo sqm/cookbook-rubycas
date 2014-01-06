@@ -15,14 +15,6 @@ platforms:
   driver_config:
     box: opscode-ubuntu-10.04-nochef
     box_url: https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04_provisionerless.box
-- name: centos-6.4
-  driver_config:
-    box: opscode-centos-6.4
-    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-6.4_provisionerless.box
-- name: centos-5.9
-  driver_config:
-    box: opscode-centos-5.9
-    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-5.9_provisionerless.box
 
 suites:
 - name: default
@@ -35,3 +27,15 @@ suites:
       server_root_password: 'rootpass'
       server_debian_password: 'debpass'
       server_repl_password: 'replpass'
+- name: postgresdb
+  data_bags_path: "test/integration/postgresdb/data_bags"
+  run_list:
+    - "recipe[rubycas::database]"
+  attributes:
+    rubycas:
+      database:
+        data_bag_item: 'rubycas'
+        data_bag_item: 'postgres_database'
+    postgresql:
+      password:
+        postgres: '123456'

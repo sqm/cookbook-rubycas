@@ -48,4 +48,8 @@ describe 'rubycas::server' do
   describe service('production-unicorn') do
     it { should be_monitored_by('god')  }
   end
+
+  describe file('/etc/logrotate.d/rubycas') do
+    it { should be_file }
+  end
 end

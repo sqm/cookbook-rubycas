@@ -38,14 +38,16 @@ describe 'rubycas::database' do
     end
 
     let(:rubycas_postgres_database_data_bag) {
-      { "adapter"       =>  "pg",
+      {
+        "adapter"       =>  "pg",
         "database_type" =>  "postgres",
         "host"          =>  "database.example.com",
         "id"            =>  "database",
         "name"          =>  "rubycas",
         "password"      =>  "database_password",
         "port"          =>  "3306",
-        "username"      =>  "rubycas" }
+        "username"      =>  "rubycas"
+      }
     }
 
     it "should include the postgresql::server recipe" do
