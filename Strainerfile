@@ -1,1 +1,1 @@
-chefspec: bundle exec rspec $SANDBOX/$COOKBOOK
+chefspec: bundle exec rspec

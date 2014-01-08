@@ -1,0 +1,71 @@
+{
+  "sources": {
+    "rubycas": {
+      "path": "."
+    },
+    "rvm": {
+      "locked_version": "0.9.1",
+      "git": "git://github.com/fnichol/chef-rvm.git",
+      "ref": "0cd320911c1e568cbf2eeac895a5ef06e5821589"
+    },
+    "god": {
+      "locked_version": "1.0.2",
+      "git": "git://github.com/sqm/chef-god.git",
+      "ref": "0bedf09e58e893769b95896ded9aa7d817e56ddc"
+    },
+    "database": {
+      "locked_version": "1.5.2"
+    },
+    "mysql": {
+      "locked_version": "4.0.10"
+    },
+    "openssl": {
+      "locked_version": "1.1.0"
+    },
+    "build-essential": {
+      "locked_version": "1.4.2"
+    },
+    "postgresql": {
+      "locked_version": "3.3.4"
+    },
+    "apt": {
+      "locked_version": "2.3.0"
+    },
+    "aws": {
+      "locked_version": "1.0.0"
+    },
+    "xfs": {
+      "locked_version": "1.1.0"
+    },
+    "nginx": {
+      "locked_version": "2.0.8"
+    },
+    "bluepill": {
+      "locked_version": "2.3.0"
+    },
+    "rsyslog": {
+      "locked_version": "1.9.0"
+    },
+    "ohai": {
+      "locked_version": "1.1.12"
+    },
+    "runit": {
+      "locked_version": "1.4.6"
+    },
+    "yum": {
+      "locked_version": "2.4.4"
+    },
+    "java": {
+      "locked_version": "1.16.2"
+    },
+    "windows": {
+      "locked_version": "1.11.0"
+    },
+    "chef_handler": {
+      "locked_version": "1.1.4"
+    },
+    "chef_gem": {
+      "locked_version": "0.1.0"
+    }
+  }
+}

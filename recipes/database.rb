@@ -15,7 +15,7 @@ end
 # database connection info
 database_connection_info = {
   :host => 'localhost',
-  :username => 'root',
+  :username => db_config.root_user,
   :port => db_config.port,
   :password => db_config.node_root_password
 }

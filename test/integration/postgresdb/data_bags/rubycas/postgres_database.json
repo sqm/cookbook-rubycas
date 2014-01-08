@@ -1,0 +1,11 @@
+{
+  "id": "postgres_database",
+  "database_type": "postgres",
+  "adapter": "pg",
+  "name": "rubycas",
+  "username": "rubycas",
+  "password": "supersecurestuffhere",
+  "host": "33.33.33.11",
+  "port": 5432
+}
+
