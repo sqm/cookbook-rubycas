@@ -24,7 +24,7 @@ nginx_cookbook_version = run_context.cookbook_collection["nginx"].metadata.versi
 
 # Nginx cookbook 2.0.0+ has changed the way modules are loaded
 # this allows us to support older versions of the cookbook.
-nginx_real_ip_module = nginx_cookbook_version.to_f < 2 ? "nginx::http_realip_module" : "http_realip_module"
+nginx_real_ip_module = nginx_cookbook_version.to_f < 2 ? "http_realip_module" : "nginx::http_realip_module"
 
 Chef::Log.info "Using nginx cookbook version #{nginx_cookbook_version}"
 node.default[:nginx][:source][:modules] << nginx_real_ip_module
