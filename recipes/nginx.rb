@@ -19,19 +19,15 @@ node.default[:nginx][:source][:default_configure_flags] = [
   "--conf-path=#{node[:nginx][:dir]}/nginx.conf"
 ]
 
-nginx_real_ip_module = "http_realip_module"
+
 nginx_cookbook_version = run_context.cookbook_collection["nginx"].metadata.version
 
 # Nginx cookbook 2.0.0+ has changed the way modules are loaded
 # this allows us to support older versions of the cookbook.
-if nginx_cookbook_version.to_f < 2
-  # Add in extra modules for load balancer support
-  Chef::Log.info "Using nginx cookbook version #{nginx_cookbook_version}"
-  node.default[:nginx][:source][:modules] << nginx_real_ip_module
-else
-  Chef::Log.info "Using nginx cookbook version #{nginx_cookbook_version}"
-  node.default[:nginx][:source][:modules] << "nginx::#{nginx_real_ip_module}"
-end
+nginx_real_ip_module = nginx_cookbook_version.to_f < 2 ? "nginx::http_realip_module" : "http_realip_module"
+
+Chef::Log.info "Using nginx cookbook version #{nginx_cookbook_version}"
+node.default[:nginx][:source][:modules] << nginx_real_ip_module
 
 include_recipe 'nginx::source'
 include_recipe 'logrotate'
