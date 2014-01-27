@@ -19,6 +19,15 @@ will need to set these attributes:
 The `node[:rubycas][:load_balancer_ip]` attribute accepts an explicit ip
 address or one in CIDR notation.
 
+## SSL CA for MySQL Database
+
+You can use a SSL CA key to connect to a MySQL Database server by adding
+the `sslca` key to the authenticator and database databags.
+
+```bash
+  "sslca" : "/path/to/sslca"
+```
+
 ## Development
 
 Development requires [VirtualBox](https://www.virtualbox.org/) and [Vagrant](http://vagrantup.com).

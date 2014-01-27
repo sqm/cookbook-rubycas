@@ -90,6 +90,7 @@ template "#{node[:rubycas][:app_directory]}/config.yml" do
     :database_password  => db_config.password,
     :database_port => db_config.port,
     :database_user => db_config.username,
+    :database_sslca => (db_config.sslca if db_config.respond_to? :sslca),
     :reconnect => node[:rubycas][:database][:reconnect],
     :ssl_cert_key_path => node[:rubycas][:ssl_key],
     :ssl_cert_path => node[:rubycas][:ssl_cert],

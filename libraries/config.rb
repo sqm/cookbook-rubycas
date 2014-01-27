@@ -13,6 +13,12 @@ module Rubycas
 
         super
       end
+
+      def respond_to?(method)
+        return true if config.has_key?(method.to_s)
+
+        super
+      end
     end
   end
 end
