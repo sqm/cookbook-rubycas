@@ -25,10 +25,6 @@ module Rubycas
         raise "Concrete class must implement #database_user_provider"
       end
 
-      def database_sslca
-        raise "Concrete class must implement #database_sslca"
-      end
-
       def node_root_password
         raise "Concrete class must implement #node_root_password"
       end
