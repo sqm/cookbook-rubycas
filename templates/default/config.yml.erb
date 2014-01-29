@@ -105,6 +105,9 @@ database:
   password: <%= @database_password %>
   host: <%= @database_host %>
   reconnect: <%= @reconnect %>
+<% if @database_sslca %>
+  sslca: <%= @database_sslca %>
+<% end %>
 
 # IMPORTANT! By default, the server can handle up to ~5 concurrent requests
 # (without queuing). You can increase this by setting the database connection
