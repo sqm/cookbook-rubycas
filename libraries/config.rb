@@ -9,15 +9,11 @@ module Rubycas
       end
 
       def method_missing(method, *args, &block)
-        return config[method.to_s] if config.has_key? method.to_s
-
-        super
+        config[method.to_s]
       end
 
-      def respond_to?(method)
-        return true if config.has_key?(method.to_s)
-
-        super
+      def respond_to_missing?(method, include_private = false)
+        config.has_key?(method.to_s) || super
       end
     end
   end
