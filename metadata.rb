@@ -1,10 +1,10 @@
 name             'rubycas'
 maintainer       'Squaremouth'
-maintainer_email 'cstephan@squaremouth.com'
+maintainer_email 'devops@squaremouth.com'
 license          'MIT'
 description      'Installs/Configures RubyCAS'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.6.0'
+version          '0.6.1'
 
 depends 'database'
 depends 'god'
