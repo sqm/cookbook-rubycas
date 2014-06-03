@@ -30,7 +30,7 @@ module Rubycas
 
       def required_client_recipes
         %w{
-          mysql::ruby
+          mysql-chef_gem
         }
       end
     end
