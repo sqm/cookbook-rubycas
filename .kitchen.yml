@@ -1,20 +1,17 @@
 ---
-driver_plugin: vagrant
+driver:
+  name: vagrant
 driver_config:
-  require_chef_omnibus: true
   customize:
-    cpus: 2
     memory: 1024
 
 platforms:
-- name: ubuntu-12.04
-  driver_config:
-    box: opscode-ubuntu-12.04-nochef
-    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box
+  - name: ubuntu-12.04
 
 suites:
 - name: default
   run_list:
+    - "recipe[apt]"
     - "recipe[rubycas::server]"
     - "recipe[rubycas::database]"
     - "recipe[rubycas::nginx]"
@@ -26,6 +23,7 @@ suites:
 - name: postgresdb
   data_bags_path: "test/integration/postgresdb/data_bags"
   run_list:
+    - "recipe[apt]"
     - "recipe[rubycas::database]"
   attributes:
     rubycas:
