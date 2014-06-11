@@ -4,7 +4,7 @@ gem 'berkshelf', '~>2.0'
 gem 'rvm' # rvm cookbook
 
 # testing
-gem 'chefspec', '~>3.1'
+gem 'chefspec'
 gem 'strainer'
 gem 'pry'
 gem 'pry-remote'
